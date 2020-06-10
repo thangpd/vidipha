@@ -36,7 +36,7 @@ function ux_builder_element_style_tag( $id, $rules, $atts ) {
       $selectors = array_map( 'trim', explode( ',', isset( $rule['selector'] ) ? $rule['selector'] : '' ) );
       $properties = array_map( 'trim', explode( ',', isset( $rule['property'] ) ? $rule['property'] : '' ) );
       $size = isset( $rule['size'] ) ? $rule['size'] : '';
-
+      $declaration_str='';
       foreach ( $selectors as $selector ) {
         $selector_str = trim( "#{$id} {$selector}" );
         foreach ( $properties as $property ) {

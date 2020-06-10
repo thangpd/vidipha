@@ -72,7 +72,7 @@ $args=array(
 'category__in' => $category_ids,
 'post__not_in' => array($post->ID),
 'posts_per_page'=> 3, // Number of related posts that will be shown.
-'caller_get_posts'=>1
+'IGNORE_STICKY_POSTS'=>1
 );
 $my_query = new wp_query( $args );
 if( $my_query->have_posts() ) {
