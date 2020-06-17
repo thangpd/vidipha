@@ -56,7 +56,7 @@ function hide_welcome_panel() {
 
 
 //Thêm Panel welcome mới:
-add_action( 'admin_footer', 'rv_custom_dashboard_widget' );
+//add_action( 'admin_footer', 'rv_custom_dashboard_widget' );
 function rv_custom_dashboard_widget() {
 	// Bail if not viewing the main dashboard page
 	if ( get_current_screen()->base !== 'dashboard' ) {
@@ -118,6 +118,7 @@ function custom_override_checkout_fields( $fields ) {
 }
 
 // Custom Dashboard
+/*
 function my_custom_dashboard() {
 	$screen = get_current_screen();
 	if ( $screen->base == 'dashboard' ) {
@@ -125,7 +126,7 @@ function my_custom_dashboard() {
 	}
 }
 
-add_action( 'admin_notices', 'my_custom_dashboard' );
+add_action( 'admin_notices', 'my_custom_dashboard' );*/
 
 
 add_filter( 'woocommerce_empty_price_html', 'custom_call_for_price' );
@@ -389,3 +390,16 @@ register_sidebar( array(
 	'before_title'  => '<span class="widget-title">',
 	'after_title'   => '</span>'
 ) );
+
+
+if ( ! function_exists( 'home_change_breadcrumb_title' ) ) {
+	function home_change_breadcrumb_title( $arr ) {
+		$arr['home'] = 'TRANG CHỦ';
+
+		return $arr;
+	}
+
+	add_filter( 'woocommerce_breadcrumb_defaults', 'home_change_breadcrumb_title', 20, 1 );
+}
+
+
