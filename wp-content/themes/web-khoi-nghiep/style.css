@@ -492,7 +492,7 @@ h1.entry-title {
     list-style: none;
     display: block;
     padding: 3px;
-    background: url(images/bg_li.jpg) repeat-x;
+    background: url(images/bg_li.jpg) repeat;
     border-bottom: 1px solid #c5deeb;
     border-top: 1px solid #fff;
     margin-bottom: .3em;
@@ -537,7 +537,7 @@ h1.entry-title {
     }
 
     .header-main {
-        background: #156AB7;
+       /* background: #156AB7;*/
     }
 
     .col-divided {
