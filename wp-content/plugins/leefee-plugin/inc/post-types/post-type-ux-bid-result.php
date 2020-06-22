@@ -1,163 +1,64 @@
 <?php
-/* Register post menu */
-register_post_type( 'bidresult',
-	array(
-		'labels'              => array(
-			'add_new_item'       => __( 'Add kết quả đấu thầu', "flatsome" ),
-			'name'               => __( 'Kết Quả Đấu Thầu', "flatsome" ),
-			'singular_name'      => __( 'Block', "flatsome" ),
-			'edit_item'          => __( 'Edit Block', "flatsome" ),
-			'view_item'          => __( 'View Block', "flatsome" ),
-			'search_items'       => __( 'Search Bidresult', "flatsome" ),
-			'not_found'          => __( 'No Bidresult found', "flatsome" ),
-			'not_found_in_trash' => __( 'No Bidresult found in Trash', "flatsome" ),
-		),
-		'public'              => true,
-		'has_archive'         => false,
-		'show_in_menu'        => true,
-		'supports'            => array( 'thumbnail', 'editor', 'title', 'revisions', 'custom-fields' ),
-		'show_in_nav_menus'   => true,
-		'exclude_from_search' => true,
-		'rewrite'             => array( 'slug' => '' ),
-		'publicly_queryable'  => true,
-		'show_ui'             => true,
-		'query_var'           => true,
-		'capability_type'     => 'page',
-		'hierarchical'        => true,
-		'menu_position'       => null,
-		'show_in_rest'        => true,
-		'rest_base'           => 'ux-bidresult',
-		'menu_icon'           => 'dashicons-book',
-	)
-);
-
-function my_edit_bidresult_columns() {
-	$columns = array(
-		'cb'        => '<input type="checkbox" />',
-		'title'     => __( 'Title', 'flatsome' ),
-		'shortcode' => __( 'Shortcode', 'flatsome' ),
-		'date'      => __( 'Date', 'flatsome' ),
-	);
-
-	return $columns;
-}
-
-add_filter( 'manage_edit-bidresult_columns', 'my_edit_bidresult_columns' );
-
-function my_manage_bidresult_columns( $column, $post_id ) {
-	$post_data = get_post( $post_id, ARRAY_A );
-	$slug      = $post_data['post_name'];
-	add_thickbox();
-	switch ( $column ) {
-		case 'shortcode':
-			echo '<textarea style="min-width:100%; max-height:30px; background:#eee;">[bidresult id="' . $slug . '"]</textarea>';
-			break;
-	}
-}
-
-add_action( 'manage_bidresult_posts_custom_column', 'my_manage_bidresult_columns', 10, 2 );
-
 /**
- * Update bidresult preview URL
+ * Register a custom post type called "bidresult".
+ *
+ * @see get_post_type_labels() for label keys.
  */
-function ux_bidresult_scripts() {
-	global $typenow;
-	if ( 'bidresult' == $typenow && isset( $_GET["post"] ) ) {
-		?>
-        <script>
-            jQuery(document).ready(function ($) {
-                var bidresult_id = $('input#post_name').val()
-                $('#submitdiv').after('<div class="postbox"><h2 class="hndle">Shortcode</h2><div class="inside"><p><textarea style="width:100%; max-height:30px;">[bidresult id="' + bidresult_id +
-                    '"]</textarea></p></div></div>')
-            })
-        </script>
-		<?php
-	}
-}
-
-add_action( 'admin_head', 'ux_bidresult_scripts' );
-
-function ux_bidresult_frontend() {
-	if ( isset( $_GET["bidresult"] ) ) {
-		?>
-        <script>
-            jQuery(document).ready(function ($) {
-                $.scrollTo('#<?php echo esc_attr( $_GET["bidresult"] );?>', 300, {offset: -200})
-            })
-        </script>
-		<?php
-	}
-}
-
-add_action( 'wp_footer', 'ux_bidresult_frontend' );
-
-
-function bidresult_shortcode( $atts, $content = null ) {
-	global $wpdb, $post;
-
-	extract( shortcode_atts( array(
-			'id' => '',
-		),
-			$atts
-		)
+function leefee_codex_bidresult_init() {
+	$labels = array(
+		'name'                  => _x( 'Kết Quả Đấu thầu', 'Post type general name', 'leefee' ),
+		'singular_name'         => _x( 'Bidresult', 'Post type singular name', 'leefee' ),
+		'menu_name'             => _x( 'Kết Quả Đấu thầu', 'Admin Menu text', 'leefee' ),
+		'name_admin_bar'        => _x( 'Bidresult', 'Add New on Toolbar', 'leefee' ),
+		'add_new'               => __( 'Add New', 'leefee' ),
+		'add_new_item'          => __( 'Add New Bidresult', 'leefee' ),
+		'new_item'              => __( 'New Bidresult', 'leefee' ),
+		'edit_item'             => __( 'Edit Bidresult', 'leefee' ),
+		'view_item'             => __( 'View Bidresult', 'leefee' ),
+		'all_items'             => __( 'All Bidresultsresult', 'leefee' ),
+		'search_items'          => __( 'Search Bidresultsresult', 'leefee' ),
+		'parent_item_colon'     => __( 'Parent Bidresultsresult:', 'leefee' ),
+		'not_found'             => __( 'No bidresultresult found.', 'leefee' ),
+		'not_found_in_trash'    => __( 'No bidresultresult found in Trash.', 'leefee' ),
+		'featured_image'        => _x( 'Bidresult Cover Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'set_featured_image'    => _x( 'Set cover image', 'Overrides the “Set featured image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'remove_featured_image' => _x( 'Remove cover image', 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'use_featured_image'    => _x( 'Use as cover image', 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'archives'              => _x( 'Bidresult archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', 'leefee' ),
+		'insert_into_item'      => _x( 'Insert into bidresult', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', 'leefee' ),
+		'uploaded_to_this_item' => _x( 'Uploaded to this bidresult', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', 'leefee' ),
+		'filter_items_list'     => _x( 'Filter bidresultresult list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'leefee' ),
+		'items_list_navigation' => _x( 'Bidresultsresult list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'leefee' ),
+		'items_list'            => _x( 'Bidresultsresult list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'leefee' ),
 	);
 
-	// Abort if ID is empty.
-	if ( empty ( $id ) ) {
-		return '<p><mark>No bidresult ID is set</mark></p>';
-	}
+	$args = array(
+		'labels'             => $labels,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'bidresult' ),
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+	);
 
-	// Get bidresult by ID or slug.
-	$where_col = is_numeric( $id ) ? 'ID' : 'post_name';
-	$post_id   = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'bidresult' AND $where_col = '$id'" );
-
-	// Polylang support.
-	if ( function_exists( 'pll_get_post' ) && pll_get_post( $post_id ) ) {
-		$lang_id = pll_get_post( $post_id );
-		if ( $lang_id ) {
-			$post_id = $lang_id;
-		}
-	}
-
-	// WPML Support.
-	if ( function_exists( 'icl_object_id' ) ) {
-		$lang_id = icl_object_id( $post_id, 'bidresult', false, ICL_LANGUAGE_CODE );
-		if ( $lang_id ) {
-			$post_id = $lang_id;
-		}
-	}
-
-	if ( $post_id ) {
-		$the_post = get_post( $post_id, null, 'display' );
-		$html     = $the_post->post_content;
-
-		if ( empty( $html ) ) {
-			$html = '<p class="lead shortcode-error">Open this in UX Builder to add and edit content</p>';
-		}
-
-		// Add edit link for admins.
-		if ( isset( $post ) && current_user_can( 'edit_pages' )
-		     && ! is_customize_preview()
-		     && function_exists( 'ux_builder_is_active' )
-		     && ! ux_builder_is_active() ) {
-			$edit_link         = ux_builder_edit_url( $post->ID, $post_id );
-			$edit_link_backend = admin_url( 'post.php?post=' . $post_id . '&action=edit' );
-			$html              = '<div class="bidresult-edit-link" data-title="Edit Block: ' . get_the_title( $post_id ) . '"   data-backend="' . esc_url( $edit_link_backend )
-			                     . '" data-link="' . esc_url( $edit_link ) . '"></div>' . $html . '';
-		}
-	} else {
-		$html = '<p><mark>Block <b>"' . esc_html( $id ) . '"</b> not found</mark></p>';
-	}
-
-	return do_shortcode( $html );
+	register_post_type( 'bidresult', $args );
 }
 
-add_shortcode( 'bidresult', 'bidresult_shortcode' );
+add_action( 'init', 'leefee_codex_bidresult_init' );
+
+
+
 
 
 if ( ! function_exists( 'bidresult_categories' ) ) {
 	/**
-	 * Add bidresult categories support
+	 * Add block categories support
 	 */
 	function bidresult_categories() {
 		$args = array(
@@ -173,3 +74,8 @@ if ( ! function_exists( 'bidresult_categories' ) ) {
 	// Hook into the 'init' action
 	add_action( 'init', 'bidresult_categories', 0 );
 }
+
+
+
+
+

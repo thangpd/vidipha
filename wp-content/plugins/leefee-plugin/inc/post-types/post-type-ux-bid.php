@@ -1,164 +1,62 @@
 <?php
-/* Register post menu */
-register_post_type( 'bid',
-	array(
-		'labels'              => array(
-			'add_new_item'       => __( 'Add bid', "bid" ),
-			'name'               => __( 'Đấu thầu', "bid" ),
-			'singular_name'      => __( 'DauThau', "bid" ),
-			'edit_item'          => __( 'Edit DauThau', "bid" ),
-			'view_item'          => __( 'View DauThau', "bid" ),
-			'search_items'       => __( 'Search Bid', "bid" ),
-			'not_found'          => __( 'No Bid found', "bid" ),
-			'not_found_in_trash' => __( 'No Bid found in Trash', "bid" ),
-		),
-		'public'              => true,
-		'has_archive'         => false,
-		'show_in_menu'        => true,
-		'supports'            => array( 'thumbnail', 'editor', 'title', 'revisions', 'custom-fields' ),
-		'show_in_nav_menus'   => true,
-		'exclude_from_search' => true,
-		'rewrite'             => array( 'slug' => '' ),
-		'publicly_queryable'  => true,
-		'show_ui'             => true,
-		'query_var'           => true,
-		'capability_type'     => 'page',
-		'hierarchical'        => true,
-		'menu_position'       => null,
-		'show_in_rest'        => true,
-		'rest_base'           => 'ux-bid',
-		'menu_icon'           => 'dashicons-book',
-	)
-);
-
-function my_edit_bid_columns() {
-	$columns = array(
-		'cb'        => '<input type="checkbox" />',
-		'title'     => __( 'Title', 'bid' ),
-		'shortcode' => __( 'Shortcode', 'bid' ),
-		'date'      => __( 'Date', 'bid' ),
-	);
-
-	return $columns;
-}
-
-add_filter( 'manage_edit-bid_columns', 'my_edit_bid_columns' );
-
-function my_manage_bid_columns( $column, $post_id ) {
-	$post_data = get_post( $post_id, ARRAY_A );
-	$slug      = $post_data['post_name'];
-	add_thickbox();
-	switch ( $column ) {
-		case 'shortcode':
-			echo '<textarea style="min-width:100%; max-height:30px; background:#eee;">[bid id="' . $slug . '"]</textarea>';
-			break;
-	}
-}
-
-add_action( 'manage_bid_posts_custom_column', 'my_manage_bid_columns', 10, 2 );
-
 /**
- * Update bid preview URL
+ * Register a custom post type called "bid".
+ *
+ * @see get_post_type_labels() for label keys.
  */
-function ux_bid_scripts() {
-	global $typenow;
-	if ( 'bid' == $typenow && isset( $_GET["post"] ) ) {
-		?>
-		<script>
-          jQuery(document).ready(function ($) {
-            var bid_id = $('input#post_name').val()
-            $('#submitdiv').
-              after('<div class="postbox"><h2 class="hndle">Shortcode</h2><div class="inside"><p><textarea style="width:100%; max-height:30px;">[bid id="' + bid_id +
-                '"]</textarea></p></div></div>')
-          })
-		</script>
-		<?php
-	}
-}
-
-add_action( 'admin_head', 'ux_bid_scripts' );
-
-function ux_bid_frontend() {
-	if ( isset( $_GET["bid"] ) ) {
-		?>
-		<script>
-          jQuery(document).ready(function ($) {
-            $.scrollTo('#<?php echo esc_attr( $_GET["bid"] );?>', 300, {offset: -200})
-          })
-		</script>
-		<?php
-	}
-}
-
-add_action( 'wp_footer', 'ux_bid_frontend' );
-
-
-function bid_shortcode( $atts, $content = null ) {
-	global $wpdb, $post;
-
-	extract( shortcode_atts( array(
-			'id' => '',
-		),
-			$atts
-		)
+function leefee_codex_bid_init() {
+	$labels = array(
+		'name'                  => _x( 'Đấu thầu', 'Post type general name', 'leefee' ),
+		'singular_name'         => _x( 'Bid', 'Post type singular name', 'leefee' ),
+		'menu_name'             => _x( 'Đấu thầu', 'Admin Menu text', 'leefee' ),
+		'name_admin_bar'        => _x( 'Bid', 'Add New on Toolbar', 'leefee' ),
+		'add_new'               => __( 'Add New', 'leefee' ),
+		'add_new_item'          => __( 'Add New Bid', 'leefee' ),
+		'new_item'              => __( 'New Bid', 'leefee' ),
+		'edit_item'             => __( 'Edit Bid', 'leefee' ),
+		'view_item'             => __( 'View Bid', 'leefee' ),
+		'all_items'             => __( 'All Bids', 'leefee' ),
+		'search_items'          => __( 'Search Bids', 'leefee' ),
+		'parent_item_colon'     => __( 'Parent Bids:', 'leefee' ),
+		'not_found'             => __( 'No bids found.', 'leefee' ),
+		'not_found_in_trash'    => __( 'No bids found in Trash.', 'leefee' ),
+		'featured_image'        => _x( 'Bid Cover Image', 'Overrides the “Featured Image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'set_featured_image'    => _x( 'Set cover image', 'Overrides the “Set featured image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'remove_featured_image' => _x( 'Remove cover image', 'Overrides the “Remove featured image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'use_featured_image'    => _x( 'Use as cover image', 'Overrides the “Use as featured image” phrase for this post type. Added in 4.3', 'leefee' ),
+		'archives'              => _x( 'Bid archives', 'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4', 'leefee' ),
+		'insert_into_item'      => _x( 'Insert into bid', 'Overrides the “Insert into post”/”Insert into page” phrase (used when inserting media into a post). Added in 4.4', 'leefee' ),
+		'uploaded_to_this_item' => _x( 'Uploaded to this bid', 'Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used when viewing media attached to a post). Added in 4.4', 'leefee' ),
+		'filter_items_list'     => _x( 'Filter bids list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', 'leefee' ),
+		'items_list_navigation' => _x( 'Bids list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', 'leefee' ),
+		'items_list'            => _x( 'Bids list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', 'leefee' ),
 	);
 
-	// Abort if ID is empty.
-	if ( empty ( $id ) ) {
-		return '<p><mark>No bid ID is set</mark></p>';
-	}
+	$args = array(
+		'labels'             => $labels,
+		'public'             => true,
+		'publicly_queryable' => true,
+		'show_ui'            => true,
+		'show_in_menu'       => true,
+		'query_var'          => true,
+		'rewrite'            => array( 'slug' => 'bid' ),
+		'capability_type'    => 'post',
+		'has_archive'        => true,
+		'hierarchical'       => false,
+		'menu_position'      => null,
+		'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+	);
 
-	// Get bid by ID or slug.
-	$where_col = is_numeric( $id ) ? 'ID' : 'post_name';
-	$post_id   = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE post_type = 'bid' AND $where_col = '$id'" );
-
-	// Polylang support.
-	if ( function_exists( 'pll_get_post' ) && pll_get_post( $post_id ) ) {
-		$lang_id = pll_get_post( $post_id );
-		if ( $lang_id ) {
-			$post_id = $lang_id;
-		}
-	}
-
-	// WPML Support.
-	if ( function_exists( 'icl_object_id' ) ) {
-		$lang_id = icl_object_id( $post_id, 'bid', false, ICL_LANGUAGE_CODE );
-		if ( $lang_id ) {
-			$post_id = $lang_id;
-		}
-	}
-
-	if ( $post_id ) {
-		$the_post = get_post( $post_id, null, 'display' );
-		$html     = $the_post->post_content;
-
-		if ( empty( $html ) ) {
-			$html = '<p class="lead shortcode-error">Open this in UX Builder to add and edit content</p>';
-		}
-
-		// Add edit link for admins.
-		if ( isset( $post ) && current_user_can( 'edit_pages' )
-		     && ! is_customize_preview()
-		     && function_exists( 'ux_builder_is_active' )
-		     && ! ux_builder_is_active() ) {
-			$edit_link         = ux_builder_edit_url( $post->ID, $post_id );
-			$edit_link_backend = admin_url( 'post.php?post=' . $post_id . '&action=edit' );
-			$html              = '<div class="bid-edit-link" data-title="Edit Block: ' . get_the_title( $post_id ) . '"   data-backend="' . esc_url( $edit_link_backend )
-			                     . '" data-link="' . esc_url( $edit_link ) . '"></div>' . $html . '';
-		}
-	} else {
-		$html = '<p><mark>Block <b>"' . esc_html( $id ) . '"</b> not found</mark></p>';
-	}
-
-	return do_shortcode( $html );
+	register_post_type( 'bid', $args );
 }
 
-add_shortcode( 'bid', 'bid_shortcode' );
+add_action( 'init', 'leefee_codex_bid_init' );
+
 
 
 if ( ! function_exists( 'bid_categories' ) ) {
 	/**
-	 * Add bid categories support
+	 * Add block categories support
 	 */
 	function bid_categories() {
 		$args = array(

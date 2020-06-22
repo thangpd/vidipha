@@ -169,7 +169,6 @@ function add_rewrite_tag( $tag, $regex, $query = '' ) {
 		$wp->add_query_var( $qv );
 		$query = $qv . '=';
 	}
-
 	$wp_rewrite->add_rewrite_tag( $tag, $regex, $query );
 }
 
