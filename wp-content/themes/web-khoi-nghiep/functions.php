@@ -3,6 +3,7 @@
 //Copy từng phần và bỏ vào file functions.php của theme:
 
 
+
 //Tùy chỉnh admin footer
 function custom_admin_footer() {
 	echo 'Thiết kế bởi <a href="http://webkhoinghiep.net" target="blank">Web Khởi Nghiệp</a>';
@@ -401,5 +402,10 @@ if ( ! function_exists( 'home_change_breadcrumb_title' ) ) {
 
 	add_filter( 'woocommerce_breadcrumb_defaults', 'home_change_breadcrumb_title', 20, 1 );
 }
+
+
+
+
+
 
 
