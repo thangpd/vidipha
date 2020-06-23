@@ -71,3 +71,67 @@ if ( ! function_exists( 'bid_categories' ) ) {
 	// Hook into the 'init' action
 	add_action( 'init', 'bid_categories', 0 );
 }
+
+//making the meta box (Note: meta box != custom meta field)
+function leefee_bid_metabox() {
+	add_meta_box(
+		'leefee_bid_metabox',       // $id
+		'Info Section',                  // $title
+		'show_leefee_bid_metabox',  // $callback
+		'bid', 'normal', 'high'
+	);
+}
+
+add_action( 'add_meta_boxes', 'leefee_bid_metabox' );
+
+function show_leefee_bid_metabox( $post ) {
+	// Use nonce for verification to secure data sending
+	wp_nonce_field( basename( __FILE__ ), 'leefee_bid_info_nonce' );
+	$value = get_post_meta( $post->ID, 'leefee_bid_date', true );
+	if ( empty( $value ) ) {
+		$value = '';
+	}
+	?>
+    <label for="leefee_bid_date">Ngày đóng thầu:
+        <input name="leefee_bid_date" type="date" value="<?php echo $value ?>"/>
+    </label>
+	<?php
+}
+
+function leefee_bid_save_meta_fields( $post_id ) {
+
+	// verify nonce
+	if ( ! isset( $_POST['leefee_bid_info_nonce'] ) || ! wp_verify_nonce( $_POST['leefee_bid_info_nonce'], basename( __FILE__ ) ) ) {
+		return 'nonce not verified';
+	}
+
+	// check autosave
+	if ( wp_is_post_autosave( $post_id ) ) {
+		return 'autosave';
+	}
+
+	//check post revision
+	if ( wp_is_post_revision( $post_id ) ) {
+		return 'revision';
+	}
+
+	// check permissions
+	if ( 'bid' == $_POST['post_type'] ) {
+		if ( ! current_user_can( 'edit_page', $post_id ) ) {
+			return 'cannot edit page';
+		}
+	} elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return 'cannot edit post';
+	}
+
+	$leefee_bid_date = !empty( $_POST['leefee_bid_date'] ) ? $_POST['leefee_bid_date'] : date( 'yy-m-d' );
+	update_post_meta(
+		$post_id,
+		'leefee_bid_date',
+		$leefee_bid_date
+	);
+
+}
+
+add_action( 'save_post', 'leefee_bid_save_meta_fields' );
+add_action( 'new_to_publish', 'leefee_bid_save_meta_fields' );

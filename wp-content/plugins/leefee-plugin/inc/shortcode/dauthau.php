@@ -306,7 +306,7 @@ function shortcode_latest_from_bid( $atts, $content = null, $tag ) {
 								<?php } ?>
                                 <h5 class="post-title is-<?php echo $title_size; ?> <?php echo $title_style; ?>"><?php the_title(); ?></h5>
 								<?php if ( ( ! has_post_thumbnail() && $show_date !== 'false' ) || $show_date == 'text' ) { ?>
-                                    <div class="post-meta is-small op-8"><?php echo get_the_date(); ?></div><?php } ?>
+                                    <div class="post-meta is-small op-8"><?php echo $value = mysql2date( get_option( 'date_format' ), get_post_meta( get_the_ID(), 'leefee_bid_date', true ), true ); ?></div><?php } ?>
                                 <div class="is-divider"></div>
 								<?php if ( $excerpt !== 'false' ) { ?>
                                     <p class="from_the_blog_excerpt <?php if ( $excerpt !== 'visible' ) {
