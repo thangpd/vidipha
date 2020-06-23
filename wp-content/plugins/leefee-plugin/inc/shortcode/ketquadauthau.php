@@ -1,6 +1,6 @@
 <?php
-// [blog_posts]
-function shortcode_latest_from_bid( $atts, $content = null, $tag ) {
+// [ketquadauthaulist]
+function shortcode_latest_from_bidresult( $atts, $content = null, $tag ) {
 
 	extract( shortcode_atts( array(
 		"_id"                 => 'row-' . rand(),
@@ -381,8 +381,7 @@ function shortcode_latest_from_bid( $atts, $content = null, $tag ) {
 								                                <div class="post-header">
 								                                <h4 class="is-large ">Tên gói thầu</h4>
 								                                </div>
-								                                    <div class="post-subheader is-small op-8">Thời điểm đóng thầu</div>                                
-								                                    <div class="is-divider"></div>
+								                                    <div class="post-subheader is-small op-8">Thời điểm đăng tải</div>                                <div class="is-divider"></div>
 																
 								
 								
@@ -397,9 +396,10 @@ function shortcode_latest_from_bid( $atts, $content = null, $tag ) {
                     </div><!-- .section-content -->
 </section>';
 	$content     = sprintf( $format_html, $content );
-	wp_enqueue_style( 'leefee-dauthau-css' );
+
+	wp_enqueue_style( 'leefee-dauthau-css');
 
 	return $content;
 }
 
-add_shortcode( "dauthaulist", "shortcode_latest_from_bid" );
+add_shortcode( "ketquadauthaulist", "shortcode_latest_from_bidresult" );

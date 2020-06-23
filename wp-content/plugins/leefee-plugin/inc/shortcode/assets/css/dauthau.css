@@ -1,0 +1,10 @@
+.section-bid  .post-header {
+    display:inline-block;
+    font-size:1em;
+    padding-left:10px;
+}
+.box-blog-post .post-subheader{
+    width: 20%;
+    float: right;
+    display: inline-block;
+}

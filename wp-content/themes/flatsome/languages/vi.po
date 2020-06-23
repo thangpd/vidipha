@@ -141,7 +141,7 @@ msgstr "Chuyên mục : %1$s | tagged %2$s ."
 #: content-single.php:61
 #, php-format
 msgid "This entry was posted in %1$s. Bookmark the <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">permalink</a>."
-msgstr "Chuyên mục %1$s. Thêm vào <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">bookmart</a>."
+msgstr "Chuyên mục %1$s. Thêm vào <a href=\"%3$s\" title=\"Permalink to %4$s\" rel=\"bookmark\">bookmark</a>."
 
 #
 #: content.php:44

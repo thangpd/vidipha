@@ -7,7 +7,7 @@
 function leefee_codex_bidresult_init() {
 	$labels = array(
 		'name'                  => _x( 'Kết Quả Đấu thầu', 'Post type general name', 'leefee' ),
-		'singular_name'         => _x( 'Bidresult', 'Post type singular name', 'leefee' ),
+		'singular_name'         => _x( 'Kết Quả Đấu thầu', 'Post type singular name', 'leefee' ),
 		'menu_name'             => _x( 'Kết Quả Đấu thầu', 'Admin Menu text', 'leefee' ),
 		'name_admin_bar'        => _x( 'Bidresult', 'Add New on Toolbar', 'leefee' ),
 		'add_new'               => __( 'Add New', 'leefee' ),
