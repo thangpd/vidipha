@@ -374,7 +374,7 @@ function shortcode_latest_from_bid( $atts, $content = null, $tag ) {
                             <div class="col medium-12 small-12 large-12">
                                 <div class="col-inner">
                                     <div class="row large-columns-1 medium-columns-1 small-columns-1 row-xsmall">
-                                    <div class="col post-item">
+                            <!--        <div class="col post-item">
             <div class="col-inner">
                     <div class="box box-vertical box-text-bottom box-blog-post has-hover">
 
@@ -386,9 +386,9 @@ function shortcode_latest_from_bid( $atts, $content = null, $tag ) {
 																
 								
 								
-						                    </div><!-- .box -->
-            </div><!-- .col-inner -->
-        </div>
+						                    </div>
+            </div>
+        </div>-->
                                     %1$s
                                     </div>
                                 </div>

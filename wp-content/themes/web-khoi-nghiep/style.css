@@ -361,12 +361,17 @@ h1.entry-title {
     padding: 6px;
 }
 
-.section-tin .title-tin-moi {
+.title-tin-moi {
 
     margin-bottom: 4px;
     background: #24632C;
     color: white;
     padding: 6px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.title-tin-moi p{
+    margin-bottom:0 !important;
 }
 
 .div-tin-sau .box-image {

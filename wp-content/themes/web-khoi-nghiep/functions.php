@@ -151,7 +151,7 @@ add_filter( 'woocommerce_get_availability', 'custom_override_get_availability', 
 // The hook in function $availability is passed via the filter!
 function custom_override_get_availability( $availability, $_product ) {
 	if ( $_product->is_in_stock() ) {
-		$availability['availability'] = __( 'Còn hàng', 'woocommerce' );
+		$availability['availability'] = __( 'Còn hàng', 'flatsome' );
 	}
 
 	return $availability;

@@ -6,7 +6,7 @@ if(!function_exists('flatsome_woocommerce_before_cart_totals')) {
           <table cellspacing="0">
           <thead>
               <tr>
-                  <th class="product-name" colspan="2" style="border-width:3px;"><?php _e( 'Cart totals', 'woocommerce' ); ?></th>
+                  <th class="product-name" colspan="2" style="border-width:3px;"><?php _e( 'Cart totals', 'flatsome' ); ?></th>
               </tr>
           </thead>
           </table>
@@ -39,7 +39,7 @@ function flatsome_override_existing_checkout_fields( $fields ) {
   if(isset($fields['address_2'])) {
     $fields['address_1']['class'][] = 'form-row-first';
     $fields['address_2']['class'][] = 'form-row-last';
-    $fields['address_2']['label'] = esc_attr__( 'Apartment, suite, unit etc. (optional)', 'woocommerce' );
+    $fields['address_2']['label'] = esc_attr__( 'Apartment, suite, unit etc. (optional)', 'flatsome' );
 
     // Remove "form-row-wide" class from address 1 and address 2
     if($fields['address_1']['class'][0] == 'form-row-wide') unset($fields['address_1']['class'][0]);
@@ -48,10 +48,10 @@ function flatsome_override_existing_checkout_fields( $fields ) {
 
   // Fix labels for floating labels option
   if(get_theme_mod('checkout_floating_labels', 0)) {
-    $fields['address_1']['placeholder'] = __( 'Street address', 'woocommerce' );
+    $fields['address_1']['placeholder'] = __( 'Street address', 'flatsome' );
 
     if(isset($fields['address_2'])) {
-      $fields['address_2']['label'] = esc_attr__( 'Apartment, suite, unit etc. (optional)', 'woocommerce' );
+      $fields['address_2']['label'] = esc_attr__( 'Apartment, suite, unit etc. (optional)', 'flatsome' );
     }
 
     // Set Placeholders
