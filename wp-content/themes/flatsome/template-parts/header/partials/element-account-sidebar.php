@@ -2,7 +2,7 @@
 <li class="account-item has-icon menu-item">
 <?php if ( is_user_logged_in() ) { ?>
 
-<a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" class="account-link account-login" title="<?php _e('My account', 'woocommerce'); ?>">
+<a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" class="account-link account-login" title="<?php _e('My account', 'flatsome'); ?>">
   <?php if(flatsome_option('account_icon') == 'icon'){
     echo get_flatsome_icon('icon-user');
     } else if(flatsome_option('account_icon') == 'avatar'){
@@ -10,7 +10,7 @@
     }
   ?>
   <span class="header-account-title">
-    <?php _e('My account', 'woocommerce'); ?>
+    <?php _e('My account', 'flatsome'); ?>
   </span>
 </a>
 
@@ -22,7 +22,7 @@
     }
   ?>
   <span class="header-account-title">
-    <?php _e('Login', 'woocommerce'); ?>
+    <?php _e('Login', 'flatsome'); ?>
   </span>
 </a><!-- .account-login-link -->
 <?php } ?>

@@ -5,7 +5,7 @@
  *************/
 
 
-Flatsome_Option::add_panel( 'woocommerce', array(
+Flatsome_Option::add_panel( 'flatsome', array(
   'title'       => __( 'Shop (WooCommerce)', 'flatsome-admin' ),
 ) );
 

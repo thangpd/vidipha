@@ -5,7 +5,7 @@
  * @package flatsome
  */
 
-$placeholder = __( 'Search', 'woocommerce' ).'&hellip;';
+$placeholder = __( 'Search', 'flatsome' ).'&hellip;';
 if(get_theme_mod('search_placeholder')) $placeholder = get_theme_mod('search_placeholder');
 ?>
 <form method="get" class="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>" role="search">

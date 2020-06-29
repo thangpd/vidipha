@@ -63,7 +63,7 @@ if ( $products->have_posts() ) : ?>
 	<div class="related related-products-wrapper product-section">
 
 		<h3 class="product-section-title product-section-title-related pt-half pb-half uppercase">
-      <?php _e( 'Related Products', 'woocommerce' ); ?></h3>
+      <?php _e( 'Related Products', 'flatsome' ); ?></h3>
 
 			<?php echo get_flatsome_repeater_start($repater); ?>
 

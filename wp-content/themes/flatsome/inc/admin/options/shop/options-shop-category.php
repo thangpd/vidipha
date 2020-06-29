@@ -1,7 +1,7 @@
 <?php
 
 Flatsome_Option::add_section( 'woocommerce_product_catalog', array(
-  'title' => __( 'Product Catalog', 'woocommerce' ),
+  'title' => __( 'Product Catalog', 'flatsome' ),
   'panel' => 'woocommerce',
 ) );
 

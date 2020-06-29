@@ -48,9 +48,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<div class="pswp__counter"></div>
 
-				<button class="pswp__button pswp__button--close" aria-label="<?php esc_attr_e( 'Close (Esc)', 'woocommerce' ); ?>"></button>
+				<button class="pswp__button pswp__button--close" aria-label="<?php esc_attr_e( 'Close (Esc)', 'flatsome' ); ?>"></button>
 
-				<button class="pswp__button pswp__button--zoom" aria-label="<?php esc_attr_e( 'Zoom in/out', 'woocommerce' ); ?>"></button>
+				<button class="pswp__button pswp__button--zoom" aria-label="<?php esc_attr_e( 'Zoom in/out', 'flatsome' ); ?>"></button>
 
 				<div class="pswp__preloader">
 					<div class="loading-spin"></div>
@@ -61,9 +61,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div class="pswp__share-tooltip"></div>
 			</div>
 
-			<button class="pswp__button--arrow--left" aria-label="<?php esc_attr_e( 'Previous (arrow left)', 'woocommerce' ); ?>"></button>
+			<button class="pswp__button--arrow--left" aria-label="<?php esc_attr_e( 'Previous (arrow left)', 'flatsome' ); ?>"></button>
 
-			<button class="pswp__button--arrow--right" aria-label="<?php esc_attr_e( 'Next (arrow right)', 'woocommerce' ); ?>"></button>
+			<button class="pswp__button--arrow--right" aria-label="<?php esc_attr_e( 'Next (arrow right)', 'flatsome' ); ?>"></button>
 
 			<div class="pswp__caption">
 				<div class="pswp__caption__center"></div>

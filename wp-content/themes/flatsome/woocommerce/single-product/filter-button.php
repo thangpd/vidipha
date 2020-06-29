@@ -1,6 +1,6 @@
 <?php
 $custom_filter_text = get_theme_mod( 'category_filter_text' );
-$filter_text = $custom_filter_text ? $custom_filter_text : __( 'Filter', 'woocommerce' );
+$filter_text = $custom_filter_text ? $custom_filter_text : __( 'Filter', 'flatsome' );
 ?>
 <div class="category-filtering container text-center product-filter-row show-for-medium">
   <a href="#product-sidebar"

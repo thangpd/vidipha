@@ -16,7 +16,7 @@ function flatsome_get_rating_html( $rating, $count = 0 ) {
 	if ( $rating > 0 ) {
 		switch ( $style ) {
 			case 'tooltip':
-				$title = sprintf( _n( '%s customer review', '%s customer reviews', $review_count, 'woocommerce' ), $review_count );
+				$title = sprintf( _n( '%s customer review', '%s customer reviews', $review_count, 'flatsome' ), $review_count );
 				$html  = '<a href="#reviews" class="woocommerce-review-link" rel="nofollow">';
 				$html .= '<div class="star-rating tooltip" title="' . esc_attr( $title ) . '">';
 				$html .= wc_get_star_rating_html( $rating, $count );

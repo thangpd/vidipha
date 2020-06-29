@@ -51,7 +51,7 @@ if(is_rtl()) $rtl = 'true';
       $html  = flatsome_wc_get_gallery_image_html( $post_thumbnail_id, true, 'full' );
     } else {
       $html  = '<div class="woocommerce-product-gallery__image--placeholder">';
-      $html .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( wc_placeholder_img_src() ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
+      $html .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( wc_placeholder_img_src() ), esc_html__( 'Awaiting product image', 'flatsome' ) );
       $html .= '</div>';
     }
 

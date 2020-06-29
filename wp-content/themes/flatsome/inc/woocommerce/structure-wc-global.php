@@ -132,7 +132,7 @@ add_action( 'widgets_init', 'flatsome_shop_widgets_init' );
 /* Modify define(name, value)ault Shop Breadcrumbs */
 function flatsome_woocommerce_breadcrumbs() {
 
-    $home = (get_theme_mod('breadcrumb_home',1)) ? _x( 'Home', 'breadcrumb', 'woocommerce' ) : false;
+    $home = (get_theme_mod('breadcrumb_home',1)) ? _x( 'Home', 'breadcrumb', 'flatsome' ) : false;
 
     return array(
         'delimiter'   => '&#47;',
@@ -228,7 +228,7 @@ if ( ! function_exists( 'flatsome_header_add_to_cart_custom_icon_fragment_count_
 		ob_start();
 		?>
 		<span class="image-icon header-cart-icon" data-icon-label="<?php echo $woocommerce->cart->cart_contents_count; ?>">
-			<img class="cart-img-icon" alt="<?php _e( 'Cart', 'woocommerce' ); ?>" src="<?php echo do_shortcode( $custom_cart_icon ); ?>"/>
+			<img class="cart-img-icon" alt="<?php _e( 'Cart', 'flatsome' ); ?>" src="<?php echo do_shortcode( $custom_cart_icon ); ?>"/>
 		</span>
 		<?php
 		$fragments['.image-icon.header-cart-icon'] = ob_get_clean();
@@ -321,10 +321,10 @@ function flatsome_presentage_bubble( $product ) {
 				$maximumper = $percentage;
 			}
 		}
-		$bubble_content = sprintf( __( '%s', 'woocommerce' ), $maximumper );
+		$bubble_content = sprintf( __( '%s', 'flatsome' ), $maximumper );
 	} else {
 		// Set default and return if the product type doesn't meet specification.
-		$bubble_content = __( 'Sale!', 'woocommerce' );
+		$bubble_content = __( 'Sale!', 'flatsome' );
 
 		return $bubble_content;
 	}

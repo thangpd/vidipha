@@ -47,7 +47,7 @@ if ( $upsells ) : ?>
 	<div class="up-sells upsells upsells-wrapper product-section">
 
   		<h3 class="product-section-title product-section-title-upsell pt-half pb-half uppercase">
-  			<?php _e( 'You may also like&hellip;', 'woocommerce' ) ?>
+  			<?php _e( 'You may also like&hellip;', 'flatsome' ) ?>
   		</h3>
 
 			<?php echo get_flatsome_repeater_start($repater); ?>
@@ -71,7 +71,7 @@ if ( $upsells ) : ?>
   <aside class="widget widget-upsell">
 
     <h3 class="widget-title shop-sidebar">
-      <?php _e( 'You may also like&hellip;', 'woocommerce' ) ?>
+      <?php _e( 'You may also like&hellip;', 'flatsome' ) ?>
       <div class="is-divider small"></div>
     </h3>
 

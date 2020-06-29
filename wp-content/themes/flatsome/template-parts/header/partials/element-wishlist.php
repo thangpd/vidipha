@@ -12,7 +12,7 @@ $icon_style = flatsome_option('wishlist_icon_style');
   <a href="<?php echo YITH_WCWL()->get_wishlist_url(); ?>" class="wishlist-link <?php echo get_flatsome_icon_class($icon_style, 'small'); ?>">
   	<?php if(flatsome_option('wishlist_title')) { ?>
     <span class="hide-for-medium header-wishlist-title">
-  	  <?php if(flatsome_option('header_wishlist_label')) {echo flatsome_option('header_wishlist_label');} else{ _e('Wishlist', 'woocommerce');} ?>
+  	  <?php if(flatsome_option('header_wishlist_label')) {echo flatsome_option('header_wishlist_label');} else{ _e('Wishlist', 'flatsome');} ?>
   	</span>
     <?php } ?>
     <?php if($icon){ ?>

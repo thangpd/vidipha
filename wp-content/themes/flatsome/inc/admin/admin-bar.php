@@ -221,7 +221,7 @@ if(is_woocommerce_activated()) {
     $wp_admin_bar->add_menu( array(
      'parent' => 'options_shop',
      'id' => 'options_shop_store_notice',
-     'title' => __( 'Store Notice', 'woocommerce' ),
+     'title' => __( 'Store Notice', 'flatsome' ),
      'href' =>  $optionUrl_section.'woocommerce_store_notice'
     ));
   }
@@ -229,7 +229,7 @@ if(is_woocommerce_activated()) {
   $wp_admin_bar->add_menu( array(
    'parent' => 'options_shop',
    'id' => 'options_shop_category_page',
-   'title' => __( 'Product Catalog', 'woocommerce' ),
+   'title' => __( 'Product Catalog', 'flatsome' ),
    'href' =>  $optionUrl_section.'woocommerce_product_catalog'
   ));
 
@@ -259,7 +259,7 @@ if(is_woocommerce_activated()) {
     $wp_admin_bar->add_menu( array(
        'parent' => 'options_shop',
        'id' => 'options_shop_product_images',
-       'title' => __( 'Product Images', 'woocommerce' ),
+       'title' => __( 'Product Images', 'flatsome' ),
        'href' =>  $optionUrl_section.'woocommerce_product_images'
       ));
   }
@@ -518,7 +518,7 @@ if(is_woocommerce_activated()) {
          $wp_admin_bar->add_menu( array(
              'parent' => 'customize',
              'id' => 'admin_bar_helper',
-             'title' => __('Product Page','woocommerce'),
+             'title' => __('Product Page','flatsome'),
  			 'href' =>  $optionUrl_section.'product-page'
          ));
   }
@@ -537,7 +537,7 @@ if(is_woocommerce_activated()) {
           $wp_admin_bar->add_menu( array(
              'parent' => 'customize',
              'id' => 'admin_bar_helper_flatsome',
-             'title' => __('Product Catalog','woocommerce'),
+             'title' => __('Product Catalog','flatsome'),
  			'href' =>  $optionUrl_section.'woocommerce_product_catalog'
          ));
   	}

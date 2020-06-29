@@ -161,9 +161,12 @@
 			if (result) {
 			    that.fatal_error = result;
 			}
+			alert(objectL10n.content_removed_from_wordpress);
+		    }).fail(function(result) {
+			that.fatal_error = result.responseText;
+		    }).always(function() {
 			that.stop_logger();
 			$('#empty').removeAttr('disabled'); // Enable the button
-			alert(objectL10n.content_removed_from_wordpress);
 		    });
 		}
 		return false;
@@ -187,17 +190,16 @@
 		    data: data,
 		    dataType: 'json'
 		}).done(function(result) {
-		    that.stop_logger();
-		    $('#test_database').removeAttr('disabled'); // Enable the button
 		    if ( typeof result.message !== 'undefined' ) {
 			$('#database_test_message').toggleClass('success', result.status === 'OK')
 			.toggleClass('failure', result.status !== 'OK')
 			.html(result.message);
 		    }
 		}).fail(function(result) {
+		    that.fatal_error = result.responseText;
+		}).always(function() {
 		    that.stop_logger();
 		    $('#test_database').removeAttr('disabled'); // Enable the button
-		    that.fatal_error = result.responseText;
 		});
 		return false;
 	    },
@@ -220,17 +222,16 @@
 		    data: data,
 		    dataType: 'json'
 		}).done(function(result) {
-		    that.stop_logger();
-		    $('#test_ftp').removeAttr('disabled'); // Enable the button
 		    if ( typeof result.message !== 'undefined' ) {
 			$('#ftp_test_message').toggleClass('success', result.status === 'OK')
 			.toggleClass('failure', result.status !== 'OK')
 			.html(result.message);
 		    }
 		}).fail(function(result) {
+		    that.fatal_error = result.responseText;
+		}).always(function() {
 		    that.stop_logger();
 		    $('#test_ftp').removeAttr('disabled'); // Enable the button
-		    that.fatal_error = result.responseText;
 		});
 		return false;
 	    },
@@ -251,9 +252,10 @@
 		    url: ajaxurl,
 		    data: data
 		}).done(function() {
+		    alert(objectL10n.settings_saved);
+		}).always(function() {
 		    that.stop_logger();
 		    $('#save').removeAttr('disabled'); // Enable the button
-		    alert(objectL10n.settings_saved);
 		});
 		return false;
 	    },
@@ -286,6 +288,9 @@
 		    if (result) {
 			that.fatal_error = result;
 		    }
+		}).fail(function(result) {
+		    that.fatal_error = result.responseText;
+		}).always(function() {
 		    that.stop_logger();
 		    that.update_display(); // Get the latest information after the import was stopped
 		    that.reactivate_import_button();
@@ -317,11 +322,13 @@
 		    method: "POST",
 		    url: ajaxurl,
 		    data: data
-		}).done(function() {
+		}).fail(function(result) {
+		    that.fatal_error = result.responseText;
+		}).always(function() {
+		    that.stop_logger();
 		    $('#stop-import').removeAttr('disabled'); // Enable the button
 		    that.reactivate_import_button();
 		});
-		that.stop_logger();
 		return false;
 	    },
 	    
@@ -344,9 +351,12 @@
 		    if (result) {
 			that.fatal_error = result;
 		    }
+		    alert(objectL10n.internal_links_modified);
+		}).fail(function(result) {
+		    that.fatal_error = result.responseText;
+		}).always(function() {
 		    that.stop_logger();
 		    $('#modify_links').removeAttr('disabled'); // Enable the button
-		    alert(objectL10n.internal_links_modified);
 		});
 		return false;
 	    },

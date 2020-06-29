@@ -3,8 +3,8 @@ Contributors: Kerfred
 Plugin Uri: https://wordpress.org/plugins/fg-joomla-to-wordpress/
 Tags: joomla, mambo, elxis, wordpress, import, importer, migration, migrator, k2, virtuemart, easyblog, sh404sef, jcomments, kunena, zoo, community builder, hikashop
 Requires at least: 4.5
-Tested up to: 5.4.1
-Stable tag: 3.66.2
+Tested up to: 5.4.2
+Stable tag: 3.67.0
 Requires PHP: 5.6
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -234,6 +234,11 @@ https://www.youtube.com/watch?v=bXOQ70s6YS8
 * other can be translated
 
 == Changelog ==
+
+= 3.67.0 =
+* New: Display the PHP errors in the logs
+* New: Check if the Simple Image Gallery Pro plugin is used on Joomla
+* Tested with WordPress 5.4.2
 
 = 3.66.2 =
 * Tested with WordPress 5.4.1
@@ -1109,10 +1114,7 @@ https://www.youtube.com/watch?v=bXOQ70s6YS8
 
 == Upgrade Notice ==
 
-= 3.66.2 =
-Tested with WordPress 5.4.1
-
-= 3.66.0 =
-New: Check if the "Simple Image Gallery" plugin is installed
-Fixed: Logs were not displayed
-Tested with WordPress 5.4
+= 3.67.0 =
+New: Display the PHP errors in the logs
+New: Check if the Simple Image Gallery Pro plugin is used on Joomla
+Tested with WordPress 5.4.2

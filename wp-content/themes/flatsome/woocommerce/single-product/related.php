@@ -46,7 +46,7 @@ if ( $related_products ) : ?>
   <div class="related related-products-wrapper product-section">
 
     <h3 class="product-section-title container-width product-section-title-related pt-half pb-half uppercase">
-      <?php esc_html_e( 'Related products', 'woocommerce' ); ?>
+      <?php esc_html_e( 'Related products', 'flatsome' ); ?>
     </h3>
 
       <?php echo get_flatsome_repeater_start($repater); ?>

@@ -38,7 +38,7 @@ if ( $products->have_posts() ) : ?>
 
 	<aside class="widget widget-upsell">
 		<h3 class="widget-title shop-sidebar">
-      <?php _e( 'You may also like&hellip;', 'woocommerce' ) ?>
+      <?php _e( 'You may also like&hellip;', 'flatsome' ) ?>
       <div class="is-divider small"></div>
     </h3>
 

@@ -1,6 +1,5 @@
 <?php
-defined("ABSPATH") or die(""); 
-
+defined('ABSPATH') || defined('DUPXABSPATH') || exit;
 /**
  * The base class for all screen.php files.  This class is used to control items that are common
  * among all screens, namely the Help tab and Screen Options drop down items.  When creating a
@@ -12,11 +11,15 @@ defined("ABSPATH") or die("");
  * @package Duplicator
  * @subpackage classes/ui
  * @copyright (c) 2017, Snapcreek LLC
- * @since 1.1.0
  *
  */
+// Exit if accessed directly
+if (!defined('DUPLICATOR_VERSION'))
+    exit;
+
 class DUP_UI_Screen
 {
+
     /**
      * Used as a placeholder for the current screen object
      */
@@ -27,7 +30,44 @@ class DUP_UI_Screen
      */
     public function __construct()
     {
+        
+    }
 
+    public static function getCustomCss()
+    {
+        $screen = get_current_screen();
+        if (!in_array($screen->id, array(
+            'toplevel_page_duplicator',
+            'duplicator_page_duplicator-tools',
+            'duplicator_page_duplicator-settings',
+            'duplicator_page_duplicator-gopro'))) {
+            return;
+        }
+
+        $colorScheme = self::getCurrentColorScheme();
+        ?>
+        <style>
+            .link-style { 
+                color: <?php echo $colorScheme->colors[2]; ?>;
+            }
+
+            .link-style:hover {
+                color: <?php echo $colorScheme->colors[3]; ?>;
+            }
+        </style>
+        <?php
+    }
+
+    public static function getCurrentColorScheme()
+    {
+        global $_wp_admin_css_colors;
+        $colorScheme = get_user_option('admin_color');
+
+        if (isset($_wp_admin_css_colors[$colorScheme])) {
+            return $_wp_admin_css_colors[$colorScheme];
+        } else {
+             return $_wp_admin_css_colors[DupLiteSnapLibUtil::arrayKeyFirst($_wp_admin_css_colors)];
+        }
     }
 
     /**
@@ -41,14 +81,14 @@ class DUP_UI_Screen
     public function getSupportTab($guide, $faq)
     {
         $content = __("<b>Need Help?</b>  Please check out these resources first:"
-                ."<ul>"
-                ."<li><a href='https://snapcreek.com/duplicator/docs/guide{$guide}' target='_sc-faq'>Full Online User Guide</a></li>"
-                ."<li><a href='https://snapcreek.com/duplicator/docs/faqs-tech{$faq}' target='_sc-faq'>Frequently Asked Questions</a></li>"
-                ."</ul>", 'duplicator');
+            ."<ul>"
+            ."<li><a href='https://snapcreek.com/duplicator/docs/guide{$guide}' target='_sc-faq'>Full Online User Guide</a></li>"
+            ."<li><a href='https://snapcreek.com/duplicator/docs/faqs-tech{$faq}' target='_sc-faq'>Frequently Asked Questions</a></li>"
+            ."</ul>", 'duplicator');
 
         $this->screen->add_help_tab(array(
-            'id' => 'dup_help_tab_callback',
-            'title' => __('Support', 'duplicator'),
+            'id'      => 'dup_help_tab_callback',
+            'title'   => esc_html__('Support', 'duplicator'),
             'content' => "<p>{$content}</p>"
             )
         );
@@ -65,13 +105,13 @@ class DUP_UI_Screen
         $txt_home  = __("Knowledge Base", 'duplicator');
         $txt_guide = __("Full User Guide", 'duplicator');
         $txt_faq   = __("Technical FAQs", 'duplicator');
-		$txt_sets  = __("Package Settings", 'duplicator');
+        $txt_sets  = __("Package Settings", 'duplicator');
         $this->screen->set_help_sidebar(
-            "<div class='dup-screen-hlp-info'><b>{$txt_title}:</b> <br/>"
-            ."<i class='fa fa-home'></i> <a href='https://snapcreek.com/duplicator/docs/' target='_sc-home'>{$txt_home}</a> <br/>"
-            ."<i class='fa fa-book'></i> <a href='https://snapcreek.com/duplicator/docs/guide/' target='_sc-guide'>{$txt_guide}</a> <br/>"
-            ."<i class='fa fa-file-code-o'></i> <a href='https://snapcreek.com/duplicator/docs/faqs-tech/' target='_sc-faq'>{$txt_faq}</a> <br/>"
-			."<i class='fa fa-gear'></i> <a href='admin.php?page=duplicator-settings&tab=package'>{$txt_sets}</a></div>"
+            "<div class='dup-screen-hlp-info'><b>".esc_html($txt_title).":</b> <br/>"
+            ."<i class='fa fa-home'></i> <a href='https://snapcreek.com/duplicator/docs/' target='_sc-home'>".esc_html($txt_home)."</a> <br/>"
+            ."<i class='fa fa-book'></i> <a href='https://snapcreek.com/duplicator/docs/guide/' target='_sc-guide'>".esc_html($txt_guide)."</a> <br/>"
+            ."<i class='far fa-file-code'></i> <a href='https://snapcreek.com/duplicator/docs/faqs-tech/' target='_sc-faq'>".esc_html($txt_faq)."</a> <br/>"
+            ."<i class='fa fa-cog'></i> <a href='admin.php?page=duplicator-settings&tab=package'>".esc_html($txt_sets)."</a></div>"
         );
     }
 }

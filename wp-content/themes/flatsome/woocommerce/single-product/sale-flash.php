@@ -25,7 +25,7 @@ if($badge_style == 'style3') $badge_style = 'frame';
 <?php if ( $product->is_on_sale() ) : ?>
 	<?php
 		// Default Sale Bubble Text
-		$text = __( 'Sale!', 'woocommerce' );
+		$text = __( 'Sale!', 'flatsome' );
 
 		// Custom Sale Bubble text
 		$custom_text = get_theme_mod('sale_bubble_text');

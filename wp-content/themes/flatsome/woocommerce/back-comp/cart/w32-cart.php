@@ -54,10 +54,10 @@ do_action( 'woocommerce_before_cart' ); ?>
 <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
 	<thead>
 		<tr>
-			<th class="product-name" colspan="3"><?php _e( 'Product', 'woocommerce' ); ?></th>
-			<th class="product-price"><?php _e( 'Price', 'woocommerce' ); ?></th>
-			<th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>
-			<th class="product-subtotal"><?php _e( 'Total', 'woocommerce' ); ?></th>
+			<th class="product-name" colspan="3"><?php _e( 'Product', 'flatsome' ); ?></th>
+			<th class="product-price"><?php _e( 'Price', 'flatsome' ); ?></th>
+			<th class="product-quantity"><?php _e( 'Quantity', 'flatsome' ); ?></th>
+			<th class="product-subtotal"><?php _e( 'Total', 'flatsome' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -78,7 +78,7 @@ do_action( 'woocommerce_before_cart' ); ?>
               echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
                 '<a href="%s" class="remove" aria-label="%s" data-product_id="%s" data-product_sku="%s">&times;</a>',
                 esc_url( WC()->cart->get_remove_url( $cart_item_key ) ),
-                __( 'Remove this item', 'woocommerce' ),
+                __( 'Remove this item', 'flatsome' ),
                 esc_attr( $product_id ),
                 esc_attr( $_product->get_sku() )
               ), $cart_item_key );
@@ -97,7 +97,7 @@ do_action( 'woocommerce_before_cart' ); ?>
             ?>
           </td>
 
-          <td class="product-name" data-title="<?php esc_attr_e( 'Product', 'woocommerce' ); ?>">
+          <td class="product-name" data-title="<?php esc_attr_e( 'Product', 'flatsome' ); ?>">
             <?php
               if ( ! $product_permalink ) {
                 echo apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;';
@@ -110,18 +110,18 @@ do_action( 'woocommerce_before_cart' ); ?>
 
               // Backorder notification
               if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $cart_item['quantity'] ) ) {
-                echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'woocommerce' ) . '</p>';
+                echo '<p class="backorder_notification">' . esc_html__( 'Available on backorder', 'flatsome' ) . '</p>';
               }
             ?>
           </td>
 
-		     <td class="product-price" data-title="<?php esc_attr_e( 'Price', 'woocommerce' ); ?>">
+		     <td class="product-price" data-title="<?php esc_attr_e( 'Price', 'flatsome' ); ?>">
             <?php
               echo apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
             ?>
           </td>
 
-			     <td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>">
+			     <td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'flatsome' ); ?>">
               <?php
                 if ( $_product->is_sold_individually() ) {
                   $product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
@@ -149,7 +149,7 @@ do_action( 'woocommerce_before_cart' ); ?>
               ?>
             </td>
 
-					 <td class="product-subtotal" data-title="<?php esc_attr_e( 'Total', 'woocommerce' ); ?>">
+					 <td class="product-subtotal" data-title="<?php esc_attr_e( 'Total', 'flatsome' ); ?>">
               <?php
                 echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key );
               ?>
@@ -167,7 +167,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 				<?php do_action( 'woocommerce_cart_actions' ); ?>
 
-				<input type="submit" class="button primary mt-0 pull-left small" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>" />
+				<input type="submit" class="button primary mt-0 pull-left small" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'flatsome' ); ?>" />
 
 				<?php wp_nonce_field( 'woocommerce-cart' ); ?>
 			</td>
@@ -187,8 +187,8 @@ do_action( 'woocommerce_before_cart' ); ?>
     <?php if ( wc_coupons_enabled() ) { ?>
     <form class="checkout_coupon mb-0" method="post">
       <div class="coupon">
-      <h3 class="widget-title"><?php echo get_flatsome_icon('icon-tag'); ?> <?php _e( 'Coupon', 'woocommerce' ); ?></h3>
-        <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="is-form expand" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>" />
+      <h3 class="widget-title"><?php echo get_flatsome_icon('icon-tag'); ?> <?php _e( 'Coupon', 'flatsome' ); ?></h3>
+        <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'flatsome' ); ?>" /> <input type="submit" class="is-form expand" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'flatsome' ); ?>" />
 
         <?php do_action( 'woocommerce_cart_coupon' ); ?>
       </div>

@@ -218,6 +218,20 @@ if ( !class_exists('FG_Joomla_to_WordPress_Modules_Check', false) ) {
 					sprintf($message_addon, __('some Simple Image Gallery Pro galleries', 'fg-joomla-to-wordpress'), $premium_url, $premium_url . 'simple-image-gallery/', __('Simple Image Gallery add-on', 'fg-joomla-to-wordpress'))
 				),
 				
+				// Simple Image Gallery Pro
+				array(array($this, 'check_plugin'),
+					array('jw_sigpro'),
+					'fg-joomla-to-wordpress-premium-simpleimagegallery-module/fgj2wp-simpleimagegallery.php',
+					sprintf($message_addon, __('some Simple Image Gallery Pro galleries', 'fg-joomla-to-wordpress'), $premium_url, $premium_url . 'simple-image-gallery/', __('Simple Image Gallery add-on', 'fg-joomla-to-wordpress'))
+				),
+				
+				// Simple Image Gallery Pro
+				array(array($this, 'check_plugin'),
+					array('jwsigpro'),
+					'fg-joomla-to-wordpress-premium-simpleimagegallery-module/fgj2wp-simpleimagegallery.php',
+					sprintf($message_addon, __('some Simple Image Gallery Pro galleries', 'fg-joomla-to-wordpress'), $premium_url, $premium_url . 'simple-image-gallery/', __('Simple Image Gallery add-on', 'fg-joomla-to-wordpress'))
+				),
+				
 				// Rokbox
 				array(array($this, 'check_extension'),
 					array('rokbox'),
