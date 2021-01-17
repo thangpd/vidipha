@@ -3,3 +3,5 @@
 wp-content/uploads/
 wp-content/updraft/
 wp-content/languages/
+wp-config.php
+log/
