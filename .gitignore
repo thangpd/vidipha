@@ -5,3 +5,4 @@ wp-content/updraft/
 wp-content/languages/
 wp-config.php
 log/
+wp-content/updraft/*
