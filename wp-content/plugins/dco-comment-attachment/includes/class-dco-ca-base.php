@@ -95,12 +95,14 @@ class DCO_CA_Base {
 			return false;
 		}
 
-		// Check the attachment exists.
-		if ( ! wp_get_attachment_url( $attachment_id ) ) {
-			return false;
+		// Check that at least one attachment exists.
+		foreach ( (array) $attachment_id as $attach_id ) {
+			if ( wp_get_attachment_url( $attach_id ) ) {
+				return true;
+			}
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -110,10 +112,16 @@ class DCO_CA_Base {
 	 *
 	 * @param int $comment_id The comment ID.
 	 * @param int $attachment_id The attachment ID.
-	 * @return int|bool Meta ID on success, false on failure.
+	 * @return array|bool|int Meta ID on success, false on failure.
 	 */
 	public function assign_attachment( $comment_id, $attachment_id ) {
 		$meta_key = $this->get_attachment_meta_key();
+
+		// Compatibility with 1.x version.
+		if ( is_array( $attachment_id ) && 1 === count( $attachment_id ) ) {
+			$attachment_id = current( $attachment_id );
+		}
+
 		return update_comment_meta( $comment_id, $meta_key, $attachment_id );
 	}
 
@@ -138,13 +146,21 @@ class DCO_CA_Base {
 			case 'image':
 				$thumbnail_size = $this->get_option( 'thumbnail_size' );
 				if ( is_admin() ) {
-					$thumbnail_size = 'medium';
+					/**
+					 * Filters the attachment image size for the admin panel.
+					 *
+					 * @since 2.0.0
+					 *
+					 * @param string $size The thumbnail size of the attachment image.
+					 */
+					$thumbnail_size = apply_filters( 'dco_ca_admin_thumbnail_size', 'medium' );
 				}
 
 				$img = wp_get_attachment_image( $attachment_id, $thumbnail_size );
 				if ( ! is_admin() && $this->get_option( 'link_thumbnail' ) ) {
 					$full_img_url = wp_get_attachment_image_url( $attachment_id, 'full' );
 					$img          = '<a href="' . esc_url( $full_img_url ) . '">' . $img . '</a>';
+					$img          = $this->activate_lightbox( $img );
 				}
 
 				$attachment_content = '<p class="dco-attachment dco-image-attachment">' . $img . '</p>';
@@ -191,6 +207,46 @@ class DCO_CA_Base {
 		}
 
 		return 'misc';
+	}
+
+	/**
+	 * Adds compatibility with lightbox plugins.
+	 *
+	 * Supports:
+	 *  - Simple Lightbox 2.8.1
+	 *  - Easy FancyBox 1.8.18
+	 *  - Responsive Lightbox & Gallery 2.3.1
+	 *  - FooBox Image Lightbox 2.7.8
+	 *  - FancyBox for WordPress 3.3.0
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $img The image markup.
+	 * @return string The image markup with lightbox support.
+	 */
+	public function activate_lightbox( $img ) {
+		$comment_id = get_comment_ID();
+
+		// Simple Lightbox.
+		if ( function_exists( 'slb_activate' ) ) {
+			$img = slb_activate( $img, $comment_id );
+			// Responsive Lightbox & Gallery.
+		} elseif ( function_exists( 'Responsive_Lightbox' ) ) {
+			$selector = Responsive_Lightbox()->options['settings']['selector'];
+			$rel      = $selector . '-gallery-' . $comment_id;
+			$img      = str_replace( '<a', '<a data-rel="' . $rel . '"', $img );
+			// Other lightbox plugins.
+		} else {
+			$rel = 'dco-ca-gallery-' . $comment_id;
+			$img = str_replace( '<a', '<a rel="' . $rel . '"', $img );
+		}
+
+		// FooBox Image Lightbox.
+		if ( class_exists( 'FooBox' ) ) {
+			$img = str_replace( '<a', '<a class="foobox"', $img );
+		}
+
+		return $img;
 	}
 
 	/**
@@ -338,7 +394,16 @@ class DCO_CA_Base {
 	 */
 	public function get_option( $name ) {
 		if ( isset( $this->options[ $name ] ) ) {
-			return $this->options[ $name ];
+			/**
+			 * Filters the value of the plugin option.
+			 *
+			 * The dynamic portion of the hook name, `$name`, refers to the option name.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param mixed $value Value of the option.
+			 */
+			return apply_filters( "dco_ca_get_option_{$name}", $this->options[ $name ] );
 		}
 
 		return false;
