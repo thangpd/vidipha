@@ -605,26 +605,29 @@ class DCO_CA extends DCO_CA_Base {
 		}
 
 //		$zip = zip_open( $path_zip_file );     // open the file
-		$zip  = new ZipArchive;
-		$file = $zip->open( $path_zip_file );
-		if ( $file === true ) {
-			$upload_dir = wp_upload_dir( 'leefee_temp', 'temp' );
-			if ( $zip->extractTo( $upload_dir['path'] ) ) {
-				//extract ok. Not passowrd
-				$res = false;
-				rmdir( $upload_dir['path'] );
-				unlink( $path_zip_file );
+		$zip = new ZipArchive;
+		if ( is_object( $zip ) ) {
+			$file = $zip->open( $path_zip_file );
+			if ( $file === true ) {
+				$upload_dir = wp_upload_dir( 'leefee_temp', 'temp' );
+				if ( $zip->extractTo( $upload_dir['path'] ) ) {
+					//extract ok. Not passowrd
+					$res = false;
+					rmdir( $upload_dir['path'] );
+					unlink( $path_zip_file );
+				} else {
+					//extract failed. Passworded.
+					$res = true;
+				}
+				$zip->close();
+
+				return $res;
 			} else {
-				//extract failed. Passworded.
-				$res = true;
+				$this->display_error( 'Cant open file' );
 			}
-			$zip->close();
-
-			return $res;
 		} else {
-			$this->display_error( 'Cant open file' );
+			throw new Exception( 'Not found ZipArchive ext. Please contact with administration to get help.' );
 		}
-
 	}
 
 	/**
