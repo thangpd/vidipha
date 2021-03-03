@@ -525,11 +525,6 @@ class DCO_CA extends DCO_CA_Base {
 
 	public function leefee_check_is_password_protected( $field_name, $comment ) {
 		$ids = $this->save_file( $field_name, $comment );
-		echo '<pre>';
-		echo 'ids';
-		print_r($ids);
-		echo '</pre>';
-		die;
 		foreach ( $ids as $id ) {
 			$attachments = get_attached_file( $id );
 			//check if has attachment.
