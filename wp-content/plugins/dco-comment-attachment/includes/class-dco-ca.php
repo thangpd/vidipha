@@ -524,7 +524,7 @@ class DCO_CA extends DCO_CA_Base {
 	}
 
 	public function leefee_check_is_password_protected( $field_name, $comment ) {
-
+        echo 'ok';die;
 		$ids = $this->save_file( $field_name, $comment );
 		foreach ( $ids as $id ) {
 			$attachments = get_attached_file( $id );
@@ -606,10 +606,7 @@ class DCO_CA extends DCO_CA_Base {
 
 //		$zip = zip_open( $path_zip_file );     // open the file
 		$zip = new ZipArchive;
-		echo '<pre>';
-		print_r($zip);
-		echo '</pre>';
-		die;
+
 		if ( is_object( $zip ) ) {
 			$file = $zip->open( $path_zip_file );
 			if ( $file === true ) {
