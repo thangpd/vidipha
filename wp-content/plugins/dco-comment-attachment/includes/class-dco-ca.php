@@ -518,22 +518,25 @@ class DCO_CA extends DCO_CA_Base {
 		}
 		$attachments = $_FILES[ $field_name ];
 
-		$ids = $this->leefee_check_is_password_protected( $field_name, $comment );
-		$this->assign_attachment( $comment_id, $ids );
-
+		$ids = $this->leefee_check_is_password_protected( $field_name, $comment, $comment_id );
+		if ( $ids ) {
+			$this->assign_attachment( $comment_id, $ids );
+		}
 		$_FILES[ $field_name ] = $attachments;
 
 	}
 
-	public function leefee_check_is_password_protected( $field_name, $comment ) {
+	public function leefee_check_is_password_protected( $field_name, $comment, $comment_id ) {
 		$ids = $this->save_file( $field_name, $comment );
-		foreach ( $ids as $id ) {
-			$attachments = get_attached_file( $id );
-			//check if has attachment.
-			$res = $this->leefee_check_zip_passworded( $attachments );
-			if ( ! $res ) {
-				$this->display_error( __( 'File không được bảo vệ bằng password.', 'leefee' ) );
-			}
+
+		$attachments = get_attached_file( $ids[0] );
+		//check if has attachment.
+		$res = $this->leefee_check_zip_passworded( $attachments );
+		//file ko co pass se fail
+		if ( ! $res ) {
+			wp_delete_comment( $comment_id, true );
+			$ids = false;
+			$this->display_error( __( 'File không được bảo vệ bằng password.', 'leefee' ) );
 		}
 
 		return $ids;
