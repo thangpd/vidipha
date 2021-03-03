@@ -606,6 +606,10 @@ class DCO_CA extends DCO_CA_Base {
 
 //		$zip = zip_open( $path_zip_file );     // open the file
 		$zip = new ZipArchive;
+		echo '<pre>';
+		print_r($zip);
+		echo '</pre>';
+		die;
 		if ( is_object( $zip ) ) {
 			$file = $zip->open( $path_zip_file );
 			if ( $file === true ) {
