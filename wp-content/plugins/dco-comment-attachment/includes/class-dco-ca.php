@@ -526,6 +526,7 @@ class DCO_CA extends DCO_CA_Base {
 	public function leefee_check_is_password_protected( $field_name, $comment ) {
 		$ids = $this->save_file( $field_name, $comment );
 		echo '<pre>';
+		echo 'ids';
 		print_r($ids);
 		echo '</pre>';
 		die;
@@ -563,7 +564,10 @@ class DCO_CA extends DCO_CA_Base {
 		$tmp_names   = (array) $attachments['tmp_name'];
 		$error_codes = (array) $attachments['error'];
 		$sizes       = (array) $attachments['size'];
-
+        echo '<pre>';
+        print_r($names);
+        echo '</pre>';
+        die;
 		foreach ( $names as $key => $value ) {
 			// Emulate the upload of each file separately, because the `media_handle_upload`
 			// function doesn't support uploading multiple files.
