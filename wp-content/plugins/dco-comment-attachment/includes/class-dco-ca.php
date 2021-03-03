@@ -384,53 +384,55 @@ class DCO_CA extends DCO_CA_Base {
 	 */
 	public function check_attachment( $commentdata ) {
 		$field_name = $this->get_upload_field_name();
-
 		if ( ! isset( $_FILES[ $field_name ] ) ) {
 			return $commentdata;
 		}
+		if ( ! empty( $_FILES[ $field_name ]['name'] ) ) {
+			// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$attachments = $_FILES[ $field_name ];
+			// phpcs:enable
 
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$attachments = $_FILES[ $field_name ];
-		// phpcs:enable
+			// If the feature to upload multiple files is disabled,
+			// but the user has uploaded multiple files.
+			if ( ! $this->get_option( 'enable_multiple_upload' ) && is_array( $attachments['name'] ) ) {
+				$this->display_error( __( 'Uploading multiple files is forbidden!', 'dco-comment-attachment' ) );
+			}
 
-		// If the feature to upload multiple files is disabled,
-		// but the user has uploaded multiple files.
-		if ( ! $this->get_option( 'enable_multiple_upload' ) && is_array( $attachments['name'] ) ) {
-			$this->display_error( __( 'Uploading multiple files is forbidden!', 'dco-comment-attachment' ) );
-		}
+			$names       = (array) $attachments['name'];
+			$tmp_names   = (array) $attachments['tmp_name'];
+			$error_codes = (array) $attachments['error'];
+			$sizes       = (array) $attachments['size'];
 
-		$names       = (array) $attachments['name'];
-		$tmp_names   = (array) $attachments['tmp_name'];
-		$error_codes = (array) $attachments['error'];
-		$sizes       = (array) $attachments['size'];
+			foreach ( $error_codes as $error_code ) {
+				$upload_error = $this->get_upload_error( $error_code );
+				if ( $upload_error ) {
+					$this->display_error( $upload_error );
+				}
+			}
 
-		foreach ( $error_codes as $error_code ) {
-			$upload_error = $this->get_upload_error( $error_code );
-			if ( $upload_error ) {
+			// We need to do this check, because the maximum allowed upload file size in WordPress
+			// can be less than the specified on the server.
+			$size = 0;
+			foreach ( $sizes as $s ) {
+				$size += $s;
+			}
+
+			if ( $size > $this->get_max_upload_size() ) {
+				$upload_error = $this->get_upload_error( 1 );
 				$this->display_error( $upload_error );
 			}
-		}
 
-		// We need to do this check, because the maximum allowed upload file size in WordPress
-		// can be less than the specified on the server.
-		$size = 0;
-		foreach ( $sizes as $s ) {
-			$size += $s;
-		}
+			foreach ( $names as $name ) {
+				$this->enable_filter_upload();
+				$filetype = wp_check_filetype( $name );
+				$this->disable_filter_upload();
 
-		if ( $size > $this->get_max_upload_size() ) {
-			$upload_error = $this->get_upload_error( 1 );
-			$this->display_error( $upload_error );
-		}
-
-		foreach ( $names as $name ) {
-			$this->enable_filter_upload();
-			$filetype = wp_check_filetype( $name );
-			$this->disable_filter_upload();
-
-			if ( ! $filetype['ext'] ) {
-				$this->display_error( __( "WordPress doesn't allow this type of uploads.", 'dco-comment-attachment' ) );
+				if ( ! $filetype['ext'] ) {
+					$this->display_error( __( "Không cho phép loại file này. Chỉ có thể zip/rar", 'dco-comment-attachment' ) );
+				}
 			}
+		} else {
+			$this->display_error( 'Bắt buộc phải gửi theo hồ sơ dự thầu file zip/rar có bảo vệ bằng password.' );
 		}
 
 		return $commentdata;
@@ -463,7 +465,7 @@ class DCO_CA extends DCO_CA_Base {
 	public function get_upload_error( $error_code ) {
 		$upload_errors = array(
 			/* translators: %s: the maximum allowed upload file size */
-			1 => sprintf( __( 'The file is too large. Allowed attachments up to %s.', 'dco-comment-attachment' ), $this->get_max_upload_size( true ) ),
+			1 => sprintf( __( 'File dung lượng quá lớn. Dung lượng cho phép %s.', 'dco-comment-attachment' ), $this->get_max_upload_size( true ) ),
 			2 => __( 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.', 'dco-comment-attachment' ),
 			3 => __( 'The uploaded file was only partially uploaded.', 'dco-comment-attachment' ),
 			6 => __( 'Missing a temporary folder.', 'dco-comment-attachment' ),
@@ -530,7 +532,7 @@ class DCO_CA extends DCO_CA_Base {
 			//check if has attachment.
 			$res = $this->leefee_check_zip_passworded( $attachments );
 			if ( ! $res ) {
-				$this->display_error( __( 'File is not protected by password. Please set password for file before upload', 'leefee' ) );
+				$this->display_error( __( 'File không được bảo vệ bằng password.', 'leefee' ) );
 			}
 		}
 
@@ -578,9 +580,9 @@ class DCO_CA extends DCO_CA_Base {
 
 			if ( ! is_wp_error( $attachment_id ) ) {
 				$ids[] = $attachment_id;
-			}else{
-				$this->display_error($attachment_id->get_error_message());
-            }
+			} else {
+				$this->display_error( $attachment_id->get_error_message() );
+			}
 		}
 
 		return $ids;
@@ -625,7 +627,7 @@ class DCO_CA extends DCO_CA_Base {
 
 				return $res;
 			} else {
-				$this->display_error( 'Cant open file' );
+				$this->display_error( 'Không thể mở file' );
 			}
 		} else {
 			throw new Exception( 'Not found ZipArchive ext. Please contact with administration to get help.' );
