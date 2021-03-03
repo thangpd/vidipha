@@ -583,10 +583,8 @@ class DCO_CA extends DCO_CA_Base {
 
 			if ( ! is_wp_error( $attachment_id ) ) {
 				$ids[] = $attachment_id;
-				echo 'not wperror';die;
 			}else{
-				$error_string = $attachment_id->get_error_message();
-				echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
+				$this->display_error($attachment_id->get_error_message());
             }
 		}
 
