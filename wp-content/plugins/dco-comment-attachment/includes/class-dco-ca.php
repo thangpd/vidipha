@@ -564,10 +564,7 @@ class DCO_CA extends DCO_CA_Base {
 		$tmp_names   = (array) $attachments['tmp_name'];
 		$error_codes = (array) $attachments['error'];
 		$sizes       = (array) $attachments['size'];
-        echo '<pre>';
-        print_r($names);
-        echo '</pre>';
-        die;
+
 		foreach ( $names as $key => $value ) {
 			// Emulate the upload of each file separately, because the `media_handle_upload`
 			// function doesn't support uploading multiple files.
@@ -586,7 +583,10 @@ class DCO_CA extends DCO_CA_Base {
 
 			if ( ! is_wp_error( $attachment_id ) ) {
 				$ids[] = $attachment_id;
-			}
+				echo 'not wperror';die;
+			}else{
+			    echo 'is wp error';die;
+            }
 		}
 
 		return $ids;
