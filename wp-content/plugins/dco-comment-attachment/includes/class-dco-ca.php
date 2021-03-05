@@ -38,6 +38,11 @@ class DCO_CA extends DCO_CA_Base {
 	public function init_hooks() {
 		parent::init_hooks();
 
+		//leefe custom hook
+		add_filter( 'duplicate_comment_id', '__return_false' );
+		add_filter( 'upload_mimes', [ $this, 'wpuf_allow_x_rar' ], 10, 2 );
+		//leefe custom hook end
+
 		if ( $this->is_attachment_field_enabled() ) {
 			add_action( 'comment_form_submit_field', array( $this, 'add_attachment_field' ) );
 			add_filter( 'preprocess_comment', array( $this, 'check_attachment' ) );
@@ -125,6 +130,14 @@ class DCO_CA extends DCO_CA_Base {
 		 *                   Default false.
 		 */
 		return ! apply_filters( 'dco_ca_disable_display_attachment', false );
+	}
+
+	function wpuf_allow_x_rar( $t, $user ) {
+		$t['rar'] = 'application/x-rar';
+		$t['rar'] = 'application/x-rar-compressed';
+		$t['rar'] = 'application/vnd.rar';
+
+		return $t;
 	}
 
 	/**
@@ -576,10 +589,15 @@ class DCO_CA extends DCO_CA_Base {
 				'size'     => $sizes[ $key ],
 			);
 			$_FILES[ $field_name ] = $file;
-
 			$this->enable_filter_upload();
-			$attachment_id = media_handle_upload( $field_name, $post_id );
+			$override = [];
+			if ( $file['type'] == 'application/vnd.rar' ) {
+				$override['test_type'] = false;
+				$override['test_form'] = false;
+			}
+			$attachment_id = media_handle_upload( $field_name, $post_id, [], $override );
 			$this->disable_filter_upload();
+
 
 			if ( ! is_wp_error( $attachment_id ) ) {
 				$ids[] = $attachment_id;
@@ -611,30 +629,64 @@ class DCO_CA extends DCO_CA_Base {
 		}
 
 //		$zip = zip_open( $path_zip_file );     // open the file
-		$zip = new ZipArchive;
+		$upload_dir = wp_upload_dir( 'leefee_temp', 'temp' );
 
-		if ( is_object( $zip ) ) {
-			$file = $zip->open( $path_zip_file );
-			if ( $file === true ) {
-				$upload_dir = wp_upload_dir( 'leefee_temp', 'temp' );
-				if ( $zip->extractTo( $upload_dir['path'] ) ) {
-					//extract ok. Not passowrd
-					$res = false;
-					rmdir( $upload_dir['path'] );
-					unlink( $path_zip_file );
+		$ext = substr( $path_zip_file, - 3, strlen( $path_zip_file ) );
+		switch ( $ext ) {
+			case 'rar':
+				$archive = RarArchive::open( $path_zip_file );
+
+				if ( is_object( $archive ) ) {
+
+					$entries = $archive->getEntries();
+					foreach ( $entries as $entry ) {
+
+						if ( $entry->isEncrypted() ) {
+							//file isEncrypted.Passworded.
+
+							$res = true;
+						} else {
+							//file not isEncrypted. not password
+							$res = false;
+						}
+					}
+					$archive->close();
+
+					return $res;
+
 				} else {
-					//extract failed. Passworded.
-					$res = true;
+					$this->display_error( 'Không thể mở file' );
 				}
-				$zip->close();
+				break;
+			case'zip':
+				$zip = new ZipArchive;
+				if ( is_object( $zip ) ) {
+					$file = $zip->open( $path_zip_file );
+					if ( $file === true ) {
 
-				return $res;
-			} else {
-				$this->display_error( 'Không thể mở file' );
-			}
-		} else {
-			throw new Exception( 'Not found ZipArchive ext. Please contact with administration to get help.' );
+						if ( $zip->extractTo( $upload_dir['path'] ) ) {
+							//extract ok. Not passowrd
+							$res = false;
+							rmdir( $upload_dir['path'] );
+							unlink( $path_zip_file );
+						} else {
+							//extract failed. Passworded.
+							$res = true;
+						}
+						$zip->close();
+
+						return $res;
+					} else {
+
+						$this->display_error( 'Không thể mở file' );
+					}
+				} else {
+					throw new Exception( 'Not found ZipArchive ext. Please contact with administration to get help.' );
+				}
+				break;
 		}
+
+
 	}
 
 	/**
